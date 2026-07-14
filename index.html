@@ -4,25 +4,24 @@
 <meta charset="UTF-8">
 <title>Broker Command Center</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
-    --bg:#12161D;
-    --surface:#1B212B;
-    --surface-hi:#232B37;
-    --border:#2C3542;
-    --text:#E7EAEE;
-    --text-dim:#8B94A3;
-    --amber:#E8A33D;
-    --amber-dim:#5C4A28;
-    --blue:#5B9BF7;
-    --orange:#F2994A;
-    --teal:#2FBF8F;
-    --red:#E5715F;
-    --green:#4CAF7D;
-    --font-display:'Oswald',Impact,'Arial Narrow',sans-serif;
-    --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+    --bg:#FAFAF8;
+    --surface:#FFFFFF;
+    --surface-hover:#F1EFE9;
+    --border:#E5E2DC;
+    --text:#1C1B19;
+    --text-dim:#6B675F;
+    --ledger:#1F4D3A;
+    --ledger-hover:#173C2D;
+    --trucking:#3B5D8A;
+    --construction:#B5651D;
+    --medical:#2A6E74;
+    --danger:#B3432E;
+    --font-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --font-display:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
     --font-mono:'IBM Plex Mono','Courier New',monospace;
   }
   *{box-sizing:border-box;}
@@ -33,6 +32,7 @@
     font-family:var(--font-body);
     font-size:14px;
     line-height:1.5;
+    -webkit-font-smoothing:antialiased;
   }
   #app{display:flex;min-height:100vh;}
 
@@ -48,10 +48,10 @@
   }
   .brand{
     font-family:var(--font-display);
-    font-size:16px;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:var(--amber);
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    color:var(--text);
     padding:0 20px 6px;
   }
   .brand-sub{
@@ -60,6 +60,7 @@
     color:var(--text-dim);
     padding:0 20px 20px;
     letter-spacing:0.05em;
+    text-transform:uppercase;
     border-bottom:1px solid var(--border);
     margin-bottom:14px;
   }
@@ -67,31 +68,32 @@
     display:flex;
     align-items:center;
     gap:10px;
-    padding:11px 20px;
+    padding:10px 20px;
     cursor:pointer;
     color:var(--text-dim);
     font-family:var(--font-display);
-    font-size:13px;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
+    font-size:13.5px;
+    font-weight:500;
+    letter-spacing:0;
     border-left:3px solid transparent;
     transition:background .12s,color .12s;
   }
   .nav-item .led{
-    width:7px;height:7px;border-radius:50%;
-    background:#3A4351;
+    width:6px;height:6px;border-radius:50%;
+    background:var(--border);
     flex-shrink:0;
     transition:background .12s,box-shadow .12s;
   }
-  .nav-item:hover{background:var(--surface-hi);color:var(--text);}
+  .nav-item:hover{background:var(--surface-hover);color:var(--text);}
   .nav-item.active{
-    background:var(--surface-hi);
-    color:var(--text);
-    border-left-color:var(--amber);
+    background:var(--surface-hover);
+    color:var(--ledger);
+    border-left-color:var(--ledger);
+    font-weight:600;
   }
   .nav-item.active .led{
-    background:var(--amber);
-    box-shadow:0 0 6px var(--amber);
+    background:var(--ledger);
+    box-shadow:0 0 6px rgba(31,77,58,0.45);
   }
   .sidebar-footer{
     margin-top:auto;
@@ -108,17 +110,16 @@
   .eyebrow{
     font-family:var(--font-mono);
     font-size:11px;
-    letter-spacing:0.1em;
-    color:var(--amber);
+    letter-spacing:0.08em;
+    color:var(--text-dim);
     text-transform:uppercase;
   }
   h1{
     font-family:var(--font-display);
-    font-size:28px;
-    font-weight:600;
-    letter-spacing:0.01em;
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:-0.01em;
     margin:4px 0 0;
-    text-transform:uppercase;
   }
   .tab-section{display:none;}
   .tab-section.active{display:block;}
@@ -127,41 +128,61 @@
   .panel{
     background:var(--surface);
     border:1px solid var(--border);
-    border-radius:6px;
+    border-radius:8px;
     padding:18px 20px;
+    box-shadow:0 1px 2px rgba(28,27,25,0.04);
   }
   .panel + .panel{margin-top:16px;}
   .panel-title{
     font-family:var(--font-display);
-    font-size:14px;
+    font-size:12.5px;
+    font-weight:600;
     text-transform:uppercase;
-    letter-spacing:0.06em;
+    letter-spacing:0.05em;
     color:var(--text-dim);
     margin:0 0 14px;
   }
+  .panel-title-lg{
+    font-family:var(--font-display);
+    font-size:17px;
+    font-weight:700;
+    color:var(--text);
+    margin:0 0 16px;
+  }
+  .panel-priority{padding:22px 24px;margin-bottom:16px;}
 
   .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px;}
   .stat-card{
     background:var(--surface);
     border:1px solid var(--border);
-    border-radius:6px;
+    border-radius:8px;
     padding:16px 18px;
+    box-shadow:0 1px 2px rgba(28,27,25,0.04);
   }
-  .stat-num{font-family:var(--font-mono);font-size:26px;font-weight:600;color:var(--amber);}
-  .stat-label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;}
+  .stat-num{font-family:var(--font-mono);font-size:24px;font-weight:600;color:var(--text);}
+  .stat-num.is-money{color:var(--ledger);}
+  .stat-label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;}
+
+  /* Signature line-item motif for dollar figures */
+  .ledger-figure{
+    display:inline-block;
+    font-family:var(--font-mono);
+    border-bottom:1.5px solid currentColor;
+    padding-bottom:2px;
+  }
 
   .focus-banner{
     display:flex;align-items:center;gap:14px;
-    background:linear-gradient(90deg,var(--surface-hi),var(--surface));
+    background:var(--surface);
     border:1px solid var(--border);
-    border-left:4px solid var(--amber);
-    border-radius:6px;
+    border-radius:8px;
     padding:16px 20px;
     margin-bottom:16px;
+    box-shadow:0 1px 2px rgba(28,27,25,0.04);
   }
   .focus-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
   .focus-text .day{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);text-transform:uppercase;}
-  .focus-text .industry{font-family:var(--font-display);font-size:18px;text-transform:uppercase;letter-spacing:0.03em;}
+  .focus-text .industry{font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--text);}
 
   .badge{
     display:inline-block;
@@ -172,48 +193,50 @@
     padding:2px 8px;
     border-radius:3px;
     border:1px solid currentColor;
+    background:color-mix(in srgb, currentColor 10%, white);
   }
 
   /* Buttons */
   button{font-family:var(--font-body);cursor:pointer;}
   .btn{
-    background:var(--amber);
-    color:#1A1300;
+    background:var(--ledger);
+    color:#fff;
     border:none;
     padding:9px 16px;
-    border-radius:4px;
+    border-radius:6px;
     font-weight:600;
     font-size:13px;
-    letter-spacing:0.02em;
+    letter-spacing:0.01em;
   }
-  .btn:hover{filter:brightness(1.08);}
+  .btn:hover{background:var(--ledger-hover);}
   .btn-ghost{
     background:transparent;
     color:var(--text-dim);
     border:1px solid var(--border);
     padding:8px 14px;
-    border-radius:4px;
+    border-radius:6px;
     font-size:12px;
   }
   .btn-ghost:hover{color:var(--text);border-color:var(--text-dim);}
   .btn-sm{padding:5px 10px;font-size:11px;}
-  .btn-danger{color:var(--red);}
+  .btn-danger{color:var(--danger);}
+  .btn-danger:hover{color:var(--danger);border-color:var(--danger);}
 
   /* Forms */
   label{display:block;font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;}
   input,select,textarea{
     width:100%;
-    background:var(--surface-hi);
+    background:var(--bg);
     border:1px solid var(--border);
     color:var(--text);
     padding:8px 10px;
-    border-radius:4px;
+    border-radius:6px;
     font-family:var(--font-body);
     font-size:13px;
     margin-bottom:12px;
   }
   textarea{resize:vertical;min-height:70px;font-family:var(--font-mono);font-size:12.5px;}
-  input:focus,select:focus,textarea:focus{outline:1.5px solid var(--amber);border-color:var(--amber);}
+  input:focus,select:focus,textarea:focus{outline:1.5px solid var(--ledger);border-color:var(--ledger);}
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;}
 
   /* Filters */
@@ -226,7 +249,7 @@
     color:var(--text-dim);
     background:transparent;
   }
-  .chip.active{background:var(--surface-hi);color:var(--text);border-color:var(--amber);}
+  .chip.active{background:var(--text);color:#fff;border-color:var(--text);}
 
   /* Deal cards */
   .deal-card{
@@ -234,53 +257,85 @@
     justify-content:space-between;
     align-items:flex-start;
     gap:12px;
-    background:var(--surface-hi);
+    background:var(--bg);
     border:1px solid var(--border);
-    border-left:4px solid var(--blue);
-    border-radius:5px;
+    border-left:4px solid var(--trucking);
+    border-radius:6px;
     padding:12px 14px;
     margin-bottom:10px;
   }
   .deal-card .main-info{flex:1;min-width:0;}
-  .deal-card .vendor{font-weight:600;font-size:14px;}
+  .deal-card .vendor{font-weight:600;font-size:14px;color:var(--text);}
   .deal-card .meta{font-size:12px;color:var(--text-dim);margin-top:2px;}
-  .deal-card .amount{font-family:var(--font-mono);color:var(--amber);font-size:13px;}
+  .deal-card .amount{color:var(--ledger);font-size:13px;font-weight:600;}
   .deal-card .next-action{font-size:12px;margin-top:6px;color:var(--text);}
   .deal-card .next-action .lbl{color:var(--text-dim);text-transform:uppercase;font-size:10px;letter-spacing:0.04em;margin-right:6px;}
   .deal-card .actions{display:flex;gap:6px;flex-shrink:0;}
   .deal-card select{width:auto;margin-bottom:0;padding:5px 8px;font-size:11px;}
-  .empty-state{color:var(--text-dim);font-size:13px;padding:20px 0;text-align:center;}
+
+  .empty-state{text-align:center;padding:32px 16px;}
+  .empty-state .empty-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;}
+  .empty-state .empty-sub{font-size:12.5px;color:var(--text-dim);margin-bottom:14px;max-width:360px;margin-left:auto;margin-right:auto;}
+
+  /* Dashboard attention items */
+  .attention-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:14px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:10px;
+  }
+  .attention-item.overdue{border-color:var(--danger);background:color-mix(in srgb, var(--danger) 6%, white);}
+  .attention-item .vendor{font-size:15px;font-weight:600;color:var(--text);}
+  .attention-item .next-action{font-size:12.5px;margin-top:6px;color:var(--text);}
+  .attention-item .next-action .lbl{color:var(--text-dim);text-transform:uppercase;font-size:10px;letter-spacing:0.04em;margin-right:6px;}
+  .attention-item .amount{color:var(--ledger);font-size:14px;font-weight:600;}
+  .when-badge{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    padding:3px 8px;
+    border-radius:4px;
+    background:var(--surface-hover);
+    color:var(--text-dim);
+    margin-top:6px;
+  }
+  .attention-item.overdue .when-badge{background:var(--danger);color:#fff;}
 
   /* Lender cards */
   .lender-card{
-    background:var(--surface-hi);
+    background:var(--bg);
     border:1px solid var(--border);
-    border-radius:5px;
+    border-radius:6px;
     padding:12px 14px;
     margin-bottom:10px;
     display:flex;
     justify-content:space-between;
     gap:12px;
   }
-  .lender-card .name{font-weight:600;font-size:14px;}
+  .lender-card .name{font-weight:600;font-size:14px;color:var(--text);}
   .lender-card .detail{font-size:12px;color:var(--text-dim);margin-top:4px;line-height:1.5;}
-  .lender-card .match-fit{border-color:var(--green) !important;box-shadow:0 0 0 1px var(--green);}
+  .lender-card.match-fit{border-color:var(--text);box-shadow:0 0 0 1px var(--text);}
 
   /* Templates tab */
   .tpl-output{white-space:pre-wrap;}
-  .copy-msg{font-family:var(--font-mono);font-size:11px;color:var(--green);margin-left:10px;display:none;}
+  .copy-msg{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);margin-left:10px;display:none;}
 
   /* Schedule */
   .week-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
   .day-col{
-    background:var(--surface-hi);
+    background:var(--bg);
     border:1px solid var(--border);
-    border-radius:6px;
+    border-radius:8px;
     padding:12px;
     min-height:180px;
   }
-  .day-col.today{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber);}
-  .day-col .day-name{font-family:var(--font-display);font-size:13px;text-transform:uppercase;letter-spacing:0.04em;}
+  .day-col.today{border-color:var(--text);box-shadow:0 0 0 1px var(--text);}
+  .day-col .day-name{font-family:var(--font-display);font-size:13px;font-weight:600;color:var(--text);}
   .day-col .day-focus{font-size:11px;margin-bottom:10px;}
   .task-row{display:flex;align-items:flex-start;gap:6px;margin-bottom:6px;font-size:12.5px;}
   .task-row input[type=checkbox]{width:auto;margin:2px 0 0;flex-shrink:0;}
@@ -288,6 +343,7 @@
   .task-add{display:flex;gap:4px;margin-top:8px;}
   .task-add input{margin-bottom:0;font-size:12px;padding:5px 7px;}
   .task-del{background:none;border:none;color:var(--text-dim);font-size:13px;cursor:pointer;padding:0 3px;}
+  .task-del:hover{color:var(--danger);}
 
   ::-webkit-scrollbar{width:8px;height:8px;}
   ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
@@ -304,20 +360,20 @@
     width:320px;
     background:var(--surface);
     border:1px solid var(--border);
-    border-top:3px solid var(--amber);
-    border-radius:6px;
+    border-radius:8px;
     padding:24px 22px;
+    box-shadow:0 2px 10px rgba(28,27,25,0.06);
   }
   .auth-card .brand{padding:0 0 4px;}
   .auth-card .brand-sub{padding:0 0 18px;border-bottom:1px solid var(--border);margin-bottom:16px;}
   .auth-error{
-    color:var(--red);
+    color:var(--danger);
     font-size:12px;
     margin-bottom:10px;
     min-height:0;
   }
   .auth-note{
-    color:var(--teal);
+    color:var(--text-dim);
     font-size:12px;
     margin-top:10px;
     line-height:1.5;
@@ -329,6 +385,114 @@
     padding:0 20px;
     margin-bottom:6px;
     word-break:break-all;
+  }
+
+  /* Modals */
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(28,27,25,0.42);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:1000;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    width:100%;
+    max-width:560px;
+    max-height:88vh;
+    overflow-y:auto;
+    box-shadow:0 20px 50px rgba(28,27,25,0.18);
+  }
+  .modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 22px;
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0;
+    background:var(--surface);
+  }
+  .modal-header h2{margin:0;font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--text);}
+  .modal-close{
+    background:none;
+    border:none;
+    font-size:20px;
+    line-height:1;
+    color:var(--text-dim);
+    cursor:pointer;
+    padding:4px;
+  }
+  .modal-close:hover{color:var(--text);}
+  .modal-body{padding:20px 22px;}
+  .modal-actions{display:flex;gap:8px;margin-top:4px;}
+
+  /* Floating quick-add action */
+  .fab{
+    position:fixed;
+    right:28px;
+    bottom:28px;
+    z-index:800;
+    box-shadow:0 6px 20px rgba(31,77,58,0.28);
+    padding:12px 20px;
+    border-radius:24px;
+  }
+
+  /* Mobile */
+  @media(max-width:600px){
+    #app{flex-direction:column;}
+    .main{padding:20px 16px 96px;max-width:100%;}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .form-grid{grid-template-columns:1fr;}
+    .week-grid{grid-template-columns:1fr;}
+    .fab{bottom:76px;right:16px;padding:11px 16px;font-size:12.5px;}
+
+    .sidebar{
+      position:fixed;
+      left:0;right:0;bottom:0;
+      width:100%;
+      height:auto;
+      flex-direction:row;
+      align-items:stretch;
+      padding:0;
+      border-right:none;
+      border-top:1px solid var(--border);
+      z-index:900;
+    }
+    .sidebar .brand,
+    .sidebar .brand-sub,
+    .sidebar .user-email,
+    .sidebar .sidebar-footer{display:none;}
+    .nav-item{
+      flex:1;
+      flex-direction:column;
+      gap:2px;
+      padding:8px 2px;
+      font-size:10px;
+      text-align:center;
+      border-left:none;
+      border-top:3px solid transparent;
+    }
+    .nav-item.active{border-left:none;border-top-color:var(--ledger);}
+    #btnSignOut{
+      flex:1;
+      margin:0;
+      width:auto;
+      height:auto;
+      border:none;
+      border-top:3px solid transparent;
+      border-radius:0;
+      background:none;
+      color:var(--text-dim);
+      font-size:10px;
+      padding:8px 2px;
+    }
   }
 </style>
 </head>
@@ -379,11 +543,11 @@
           <div class="industry" id="focusIndustry"></div>
         </div>
       </div>
-      <div class="stat-grid" id="statGrid"></div>
-      <div class="panel">
-        <div class="panel-title">Needs Attention Next</div>
+      <div class="panel panel-priority">
+        <div class="panel-title-lg">Needs Attention Next</div>
         <div id="upcomingList"></div>
       </div>
+      <div class="stat-grid" id="statGrid"></div>
     </div>
 
     <!-- PIPELINE -->
@@ -400,40 +564,6 @@
           <button class="chip" data-filter="medical">Medical</button>
           <span style="flex:1"></span>
           <button class="btn" id="btnAddDeal">+ Add Deal</button>
-        </div>
-        <div id="dealForm" style="display:none;margin-bottom:16px;padding-top:6px;border-top:1px solid var(--border);">
-          <div class="form-grid">
-            <div>
-              <label>Industry</label>
-              <select id="fIndustry"><option value="trucking">Trucking</option><option value="construction">Construction</option><option value="medical">Medical</option></select>
-            </div>
-            <div>
-              <label>Stage</label>
-              <select id="fStage"></select>
-            </div>
-            <div>
-              <label>Vendor / Dealer name</label>
-              <input id="fVendor" placeholder="e.g. Lone Star Truck Sales">
-            </div>
-            <div>
-              <label>Buyer / contact name</label>
-              <input id="fContact" placeholder="e.g. Mike Alvarez">
-            </div>
-            <div>
-              <label>Deal amount ($)</label>
-              <input id="fAmount" type="number" placeholder="45000">
-            </div>
-            <div>
-              <label>Next action date</label>
-              <input id="fDate" type="date">
-            </div>
-          </div>
-          <label>Next action</label>
-          <input id="fNextAction" placeholder="e.g. Send docs to lender, call back Thursday...">
-          <label>Notes</label>
-          <textarea id="fNotes" placeholder="Credit profile, terms discussed, anything to remember..."></textarea>
-          <button class="btn" id="btnSaveDeal">Save Deal</button>
-          <button class="btn-ghost" id="btnCancelDeal">Cancel</button>
         </div>
         <div id="dealList"></div>
       </div>
@@ -469,38 +599,6 @@
         <div class="filter-row">
           <div class="panel-title" style="margin:0;flex:1;">Your Lender Network</div>
           <button class="btn" id="btnAddLender">+ Add Lender</button>
-        </div>
-        <div id="lenderForm" style="display:none;margin-bottom:16px;padding-top:6px;border-top:1px solid var(--border);">
-          <div class="form-grid">
-            <div>
-              <label>Lender name</label>
-              <input id="lName" placeholder="e.g. Ridgeline Asset Finance">
-            </div>
-            <div>
-              <label>Industry</label>
-              <select id="lIndustry"><option value="trucking">Trucking</option><option value="construction">Construction</option><option value="medical">Medical</option></select>
-            </div>
-            <div>
-              <label>Min credit score</label>
-              <input id="lMinCredit" type="number" placeholder="600">
-            </div>
-            <div>
-              <label>Max deal amount ($)</label>
-              <input id="lMaxAmount" type="number" placeholder="250000">
-            </div>
-            <div>
-              <label>Typical rate</label>
-              <input id="lRate" placeholder="e.g. 9-14% or Varies">
-            </div>
-            <div>
-              <label>Contact</label>
-              <input id="lContact" placeholder="Rep name / phone / email">
-            </div>
-          </div>
-          <label>Specialty / notes</label>
-          <textarea id="lSpecialty" placeholder="What they're good for, quirks, turnaround time..."></textarea>
-          <button class="btn" id="btnSaveLender">Save Lender</button>
-          <button class="btn-ghost" id="btnCancelLender">Cancel</button>
         </div>
         <div id="lenderList"></div>
       </div>
@@ -578,6 +676,99 @@
     </div>
 
   </div>
+
+  <button class="btn fab" id="btnQuickAddDeal">+ Add Deal</button>
+
+  <!-- DEAL MODAL -->
+  <div class="modal-overlay" id="dealModalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="dealModalTitle">Add Deal</h2>
+        <button class="modal-close" id="btnCloseDealModal" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body" id="dealForm">
+        <div class="form-grid">
+          <div>
+            <label>Industry</label>
+            <select id="fIndustry"><option value="trucking">Trucking</option><option value="construction">Construction</option><option value="medical">Medical</option></select>
+          </div>
+          <div>
+            <label>Stage</label>
+            <select id="fStage"></select>
+          </div>
+          <div>
+            <label>Vendor / Dealer name</label>
+            <input id="fVendor" placeholder="e.g. Lone Star Truck Sales">
+          </div>
+          <div>
+            <label>Buyer / contact name</label>
+            <input id="fContact" placeholder="e.g. Mike Alvarez">
+          </div>
+          <div>
+            <label>Deal amount ($)</label>
+            <input id="fAmount" type="number" placeholder="45000">
+          </div>
+          <div>
+            <label>Next action date</label>
+            <input id="fDate" type="date">
+          </div>
+        </div>
+        <label>Next action</label>
+        <input id="fNextAction" placeholder="e.g. Send docs to lender, call back Thursday...">
+        <label>Notes</label>
+        <textarea id="fNotes" placeholder="Credit profile, terms discussed, anything to remember..."></textarea>
+        <div class="modal-actions">
+          <button class="btn" id="btnSaveDeal">Save Deal</button>
+          <button class="btn-ghost" id="btnCancelDeal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LENDER MODAL -->
+  <div class="modal-overlay" id="lenderModalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="lenderModalTitle">Add Lender</h2>
+        <button class="modal-close" id="btnCloseLenderModal" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body" id="lenderForm">
+        <div class="form-grid">
+          <div>
+            <label>Lender name</label>
+            <input id="lName" placeholder="e.g. Ridgeline Asset Finance">
+          </div>
+          <div>
+            <label>Industry</label>
+            <select id="lIndustry"><option value="trucking">Trucking</option><option value="construction">Construction</option><option value="medical">Medical</option></select>
+          </div>
+          <div>
+            <label>Min credit score</label>
+            <input id="lMinCredit" type="number" placeholder="600">
+          </div>
+          <div>
+            <label>Max deal amount ($)</label>
+            <input id="lMaxAmount" type="number" placeholder="250000">
+          </div>
+          <div>
+            <label>Typical rate</label>
+            <input id="lRate" placeholder="e.g. 9-14% or Varies">
+          </div>
+          <div>
+            <label>Contact</label>
+            <input id="lContact" placeholder="Rep name / phone / email">
+          </div>
+        </div>
+        <label>Specialty / notes</label>
+        <textarea id="lSpecialty" placeholder="What they're good for, quirks, turnaround time..."></textarea>
+        <div class="modal-actions">
+          <button class="btn" id="btnSaveLender">Save Lender</button>
+          <button class="btn-ghost" id="btnCancelLender">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -595,10 +786,10 @@
   let currentUser = null;
 
   const INDUSTRY_META = {
-    trucking:{label:'Logistics / Trucking', short:'Logistics', color:'var(--blue)', hex:'#5B9BF7'},
-    construction:{label:'Yellow Iron / Construction', short:'Yellow Iron', color:'var(--orange)', hex:'#F2994A'},
-    medical:{label:'Healthcare / Medical', short:'Healthcare', color:'var(--teal)', hex:'#2FBF8F'},
-    admin:{label:'Admin / Catch-up', short:'Admin', color:'var(--text-dim)', hex:'#8B94A3'}
+    trucking:{label:'Logistics / Trucking', short:'Logistics', color:'var(--trucking)', hex:'#3B5D8A'},
+    construction:{label:'Yellow Iron / Construction', short:'Yellow Iron', color:'var(--construction)', hex:'#B5651D'},
+    medical:{label:'Healthcare / Medical', short:'Healthcare', color:'var(--medical)', hex:'#2A6E74'},
+    admin:{label:'Admin / Catch-up', short:'Admin', color:'var(--text-dim)', hex:'#6B675F'}
   };
   const STAGES = ['New Lead','Docs Sent','Underwriting','Approved','Funded','Declined'];
   const DAY_FOCUS = {1:'trucking',2:'trucking',3:'construction',4:'construction',5:'medical'};
@@ -661,6 +852,9 @@
     n = Number(n)||0;
     return '$'+n.toLocaleString('en-US');
   }
+  function moneyFigure(n){
+    return `<span class="ledger-figure" style="color:var(--ledger)">${fmtMoney(n)}</span>`;
+  }
   function todayISO(){
     const d = new Date();
     return d.toISOString().slice(0,10);
@@ -682,6 +876,35 @@
     });
   });
 
+  /* ---------- MODALS ---------- */
+  function openDealModal(){
+    document.getElementById('dealModalTitle').textContent = editingDealId ? 'Edit Deal' : 'Add Deal';
+    document.getElementById('dealModalOverlay').classList.add('open');
+  }
+  function closeDealModal(){
+    document.getElementById('dealModalOverlay').classList.remove('open');
+    editingDealId = null;
+  }
+  function openLenderModal(){
+    document.getElementById('lenderModalTitle').textContent = editingLenderId ? 'Edit Lender' : 'Add Lender';
+    document.getElementById('lenderModalOverlay').classList.add('open');
+  }
+  function closeLenderModal(){
+    document.getElementById('lenderModalOverlay').classList.remove('open');
+    editingLenderId = null;
+  }
+  document.getElementById('dealModalOverlay').addEventListener('click', (e)=>{
+    if(e.target.id==='dealModalOverlay') closeDealModal();
+  });
+  document.getElementById('lenderModalOverlay').addEventListener('click', (e)=>{
+    if(e.target.id==='lenderModalOverlay') closeLenderModal();
+  });
+  document.getElementById('btnCloseDealModal').addEventListener('click', closeDealModal);
+  document.getElementById('btnCloseLenderModal').addEventListener('click', closeLenderModal);
+  document.addEventListener('keydown', (e)=>{
+    if(e.key==='Escape'){ closeDealModal(); closeLenderModal(); }
+  });
+
   /* ---------- DASHBOARD ---------- */
   function renderDashboard(){
     const now = new Date();
@@ -700,28 +923,37 @@
     const dueSoon = active.filter(d=>d.nextActionDate && daysUntil(d.nextActionDate) <= 7).length;
 
     const stats = [
-      {num:active.length, label:'Active Deals'},
-      {num:fmtMoney(totalValue), label:'Pipeline Value'},
-      {num:dueSoon, label:'Due Within 7 Days'},
-      {num:lenders.length, label:'Lenders In Network'}
+      {num:active.length, label:'Active Deals', money:false},
+      {num:fmtMoney(totalValue), label:'Pipeline Value', money:true},
+      {num:dueSoon, label:'Due Within 7 Days', money:false},
+      {num:lenders.length, label:'Lenders In Network', money:false}
     ];
     document.getElementById('statGrid').innerHTML = stats.map(s=>
-      `<div class="stat-card"><div class="stat-num">${s.num}</div><div class="stat-label">${s.label}</div></div>`
+      `<div class="stat-card"><div class="stat-num ${s.money?'is-money ledger-figure':''}">${s.num}</div><div class="stat-label">${s.label}</div></div>`
     ).join('');
 
     const upcoming = active.filter(d=>d.nextActionDate).sort((a,b)=> new Date(a.nextActionDate)-new Date(b.nextActionDate)).slice(0,5);
     const list = document.getElementById('upcomingList');
     if(upcoming.length===0){
-      list.innerHTML = '<div class="empty-state">Nothing scheduled. Add a next action to a deal in Pipeline to see it here.</div>';
+      list.innerHTML = `<div class="empty-state">
+        <div class="empty-title">Nothing needs attention right now</div>
+        <div class="empty-sub">Add a next action to a deal in Pipeline and it'll show up here.</div>
+        <button class="btn-ghost btn-sm" id="emptyGoPipeline">Go to Pipeline</button>
+      </div>`;
+      document.getElementById('emptyGoPipeline').addEventListener('click', ()=>{
+        document.querySelector('.nav-item[data-tab="pipeline"]').click();
+      });
     } else {
       list.innerHTML = upcoming.map(d=>{
         const im = INDUSTRY_META[d.industry];
         const du = daysUntil(d.nextActionDate);
-        const when = du<0 ? `${Math.abs(du)}d overdue` : du===0 ? 'Today' : `in ${du}d`;
-        return `<div class="deal-card" style="border-left-color:${im.hex}">
+        const overdue = du<0;
+        const when = overdue ? `${Math.abs(du)}d overdue` : du===0 ? 'Today' : `in ${du}d`;
+        return `<div class="attention-item ${overdue?'overdue':''}">
           <div class="main-info">
             <div class="vendor">${escapeHtml(d.vendor||'Untitled deal')} <span class="badge" style="color:${im.hex}">${im.short}</span></div>
-            <div class="next-action"><span class="lbl">Next</span>${escapeHtml(d.nextAction||'—')} <span style="color:var(--text-dim)">(${when})</span></div>
+            <div class="next-action"><span class="lbl">Next</span>${escapeHtml(d.nextAction||'—')}</div>
+            <div class="when-badge">${when}</div>
           </div>
           <div class="amount">${fmtMoney(d.amount)}</div>
         </div>`;
@@ -738,11 +970,14 @@
   document.getElementById('btnAddDeal').addEventListener('click', ()=>{
     editingDealId = null;
     clearDealForm();
-    document.getElementById('dealForm').style.display = 'block';
+    openDealModal();
   });
-  document.getElementById('btnCancelDeal').addEventListener('click', ()=>{
-    document.getElementById('dealForm').style.display = 'none';
+  document.getElementById('btnQuickAddDeal').addEventListener('click', ()=>{
+    editingDealId = null;
+    clearDealForm();
+    openDealModal();
   });
+  document.getElementById('btnCancelDeal').addEventListener('click', closeDealModal);
   function clearDealForm(){
     document.getElementById('fIndustry').value='trucking';
     document.getElementById('fStage').value='New Lead';
@@ -772,8 +1007,7 @@
       deals.push(rec);
     }
     await safeSet('deals', deals);
-    document.getElementById('dealForm').style.display='none';
-    editingDealId = null;
+    closeDealModal();
     renderAll();
   });
 
@@ -795,7 +1029,16 @@
       return ad-bd;
     });
     if(shown.length===0){
-      list.innerHTML = '<div class="empty-state">No deals here yet. Click "+ Add Deal" to log your first one.</div>';
+      list.innerHTML = `<div class="empty-state">
+        <div class="empty-title">No deals in the pipeline yet</div>
+        <div class="empty-sub">Log your first deal to start tracking next actions and pipeline value.</div>
+        <button class="btn btn-sm" id="emptyAddDeal">+ Add Deal</button>
+      </div>`;
+      document.getElementById('emptyAddDeal').addEventListener('click', ()=>{
+        editingDealId = null;
+        clearDealForm();
+        openDealModal();
+      });
       return;
     }
     list.innerHTML = shown.map(d=>{
@@ -836,8 +1079,7 @@
         document.getElementById('fDate').value = d.nextActionDate;
         document.getElementById('fNextAction').value = d.nextAction;
         document.getElementById('fNotes').value = d.notes;
-        document.getElementById('dealForm').style.display='block';
-        document.getElementById('dealForm').scrollIntoView({behavior:'smooth', block:'nearest'});
+        openDealModal();
       });
     });
     list.querySelectorAll('.del-deal').forEach(btn=>{
@@ -854,11 +1096,9 @@
   document.getElementById('btnAddLender').addEventListener('click', ()=>{
     editingLenderId = null;
     clearLenderForm();
-    document.getElementById('lenderForm').style.display='block';
+    openLenderModal();
   });
-  document.getElementById('btnCancelLender').addEventListener('click', ()=>{
-    document.getElementById('lenderForm').style.display='none';
-  });
+  document.getElementById('btnCancelLender').addEventListener('click', closeLenderModal);
   function clearLenderForm(){
     document.getElementById('lName').value='';
     document.getElementById('lIndustry').value='trucking';
@@ -886,8 +1126,7 @@
       lenders.push(rec);
     }
     await safeSet('lenders', lenders);
-    document.getElementById('lenderForm').style.display='none';
-    editingLenderId = null;
+    closeLenderModal();
     renderLenders();
   });
 
@@ -895,7 +1134,16 @@
     highlightIds = highlightIds || [];
     const list = document.getElementById('lenderList');
     if(lenders.length===0){
-      list.innerHTML = '<div class="empty-state">No lenders yet. Add the funding sources you actually work with.</div>';
+      list.innerHTML = `<div class="empty-state">
+        <div class="empty-title">No lenders in your network yet</div>
+        <div class="empty-sub">Add the funding sources you actually work with so Quick Match can find fits.</div>
+        <button class="btn btn-sm" id="emptyAddLender">+ Add Lender</button>
+      </div>`;
+      document.getElementById('emptyAddLender').addEventListener('click', ()=>{
+        editingLenderId = null;
+        clearLenderForm();
+        openLenderModal();
+      });
       return;
     }
     list.innerHTML = lenders.map(l=>{
@@ -904,7 +1152,7 @@
       return `<div class="lender-card ${fit?'match-fit':''}">
         <div class="main-info">
           <div class="name">${escapeHtml(l.name)} <span class="badge" style="color:${im.hex}">${im.short}</span></div>
-          <div class="detail">Min credit ${l.minCredit||'—'} · Up to ${fmtMoney(l.maxAmount)} · Rate: ${escapeHtml(l.rate)}${l.contact ? ' · '+escapeHtml(l.contact) : ''}</div>
+          <div class="detail">Min credit ${l.minCredit||'—'} · Up to ${moneyFigure(l.maxAmount)} · Rate: ${escapeHtml(l.rate)}${l.contact ? ' · '+escapeHtml(l.contact) : ''}</div>
           ${l.specialty ? `<div class="detail">${escapeHtml(l.specialty)}</div>` : ''}
         </div>
         <div class="actions">
@@ -925,7 +1173,7 @@
         document.getElementById('lRate').value = l.rate;
         document.getElementById('lContact').value = l.contact;
         document.getElementById('lSpecialty').value = l.specialty;
-        document.getElementById('lenderForm').style.display='block';
+        openLenderModal();
       });
     });
     list.querySelectorAll('.del-lender').forEach(btn=>{
