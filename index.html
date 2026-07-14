@@ -152,6 +152,8 @@
   .panel-priority{padding:22px 24px;margin-bottom:16px;}
 
   .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px;}
+  .stat-grid-3col{grid-template-columns:repeat(3,1fr);}
+  .stat-grid-2col{grid-template-columns:repeat(2,1fr);}
   .stat-card{
     background:var(--surface);
     border:1px solid var(--border);
@@ -183,6 +185,60 @@
   .focus-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
   .focus-text .day{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);text-transform:uppercase;}
   .focus-text .industry{font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--text);}
+
+  /* Quick actions */
+  .quick-action-row{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+  .qa-btn{transition:transform .12s ease, box-shadow .12s ease;}
+  .qa-btn:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(28,27,25,0.12);}
+
+  /* Two-up layout */
+  .split-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  @media(max-width:760px){ .split-grid{grid-template-columns:1fr;} }
+
+  /* Month-to-date revenue card */
+  .mtd-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-left:4px solid var(--ledger);
+    border-radius:8px;
+    padding:18px 20px;
+    margin-bottom:16px;
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    box-shadow:0 1px 2px rgba(28,27,25,0.04);
+  }
+  .mtd-num{font-family:var(--font-mono);font-size:30px;font-weight:700;color:var(--ledger);border-bottom:1.5px solid var(--ledger);padding-bottom:2px;}
+  .mtd-label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;}
+  .mtd-delta{font-family:var(--font-mono);font-size:12.5px;padding:3px 8px;border-radius:4px;}
+  .mtd-delta.up{color:var(--ledger);background:color-mix(in srgb, var(--ledger) 10%, white);}
+  .mtd-delta.down{color:var(--danger);background:color-mix(in srgb, var(--danger) 10%, white);}
+
+  /* Pipeline funnel */
+  .funnel-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .funnel-label{width:110px;flex-shrink:0;font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.04em;}
+  .funnel-track{flex:1;background:var(--surface-hover);border-radius:4px;height:22px;overflow:hidden;}
+  .funnel-fill{height:100%;border-radius:4px;background:var(--text);transition:width .3s ease;}
+  .funnel-amount{width:130px;flex-shrink:0;text-align:right;font-family:var(--font-mono);font-size:13px;}
+
+  /* Activity feed */
+  .activity-item{padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);}
+  .activity-item:last-child{border-bottom:none;}
+  .activity-item .ts{color:var(--text-dim);font-family:var(--font-mono);font-size:11px;display:block;margin-bottom:2px;}
+
+  /* Top lenders */
+  .lender-tier-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
+  .lender-tier-row:last-child{border-bottom:none;}
+  .lender-tier-row .name{font-weight:600;color:var(--text);}
+  .lender-tier-row .stats{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);text-align:right;}
+
+  /* Lead source chart */
+  .leadsource-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .leadsource-label{width:130px;flex-shrink:0;font-size:12px;color:var(--text-dim);}
+  .leadsource-track{flex:1;background:var(--surface-hover);border-radius:4px;height:16px;overflow:hidden;}
+  .leadsource-fill{height:100%;background:var(--text);border-radius:4px;}
+  .leadsource-count{width:28px;text-align:right;font-family:var(--font-mono);font-size:12px;}
+
+  /* Commission calculator result */
+  .calc-result{font-family:var(--font-mono);font-size:22px;font-weight:700;color:var(--ledger);border-bottom:1.5px solid var(--ledger);display:none;padding-bottom:4px;margin-top:6px;width:fit-content;}
 
   .badge{
     display:inline-block;
@@ -273,7 +329,7 @@
   .deal-card .actions{display:flex;gap:6px;flex-shrink:0;}
   .deal-card select{width:auto;margin-bottom:0;padding:5px 8px;font-size:11px;}
 
-  .empty-state{text-align:center;padding:32px 16px;}
+  .empty-state{text-align:center;padding:32px 16px;color:var(--text-dim);font-size:13px;}
   .empty-state .empty-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;}
   .empty-state .empty-sub{font-size:12.5px;color:var(--text-dim);margin-bottom:14px;max-width:360px;margin-left:auto;margin-right:auto;}
 
@@ -452,6 +508,8 @@
     .form-grid{grid-template-columns:1fr;}
     .week-grid{grid-template-columns:1fr;}
     .fab{bottom:76px;right:16px;padding:11px 16px;font-size:12.5px;}
+    .funnel-label,.leadsource-label{width:78px;font-size:10.5px;}
+    .funnel-amount{width:96px;}
 
     .sidebar{
       position:fixed;
@@ -464,6 +522,7 @@
       border-right:none;
       border-top:1px solid var(--border);
       z-index:900;
+      overflow-x:auto;
     }
     .sidebar .brand,
     .sidebar .brand-sub,
@@ -474,10 +533,11 @@
       flex-direction:column;
       gap:2px;
       padding:8px 2px;
-      font-size:10px;
+      font-size:9.5px;
       text-align:center;
       border-left:none;
       border-top:3px solid transparent;
+      white-space:nowrap;
     }
     .nav-item.active{border-left:none;border-top-color:var(--ledger);}
     #btnSignOut{
@@ -490,7 +550,7 @@
       border-radius:0;
       background:none;
       color:var(--text-dim);
-      font-size:10px;
+      font-size:9.5px;
       padding:8px 2px;
     }
   }
@@ -519,6 +579,7 @@
     <div class="brand-sub" id="brandSub">MULTI-NICHE EQUIPMENT FINANCE</div>
     <div class="nav-item active" data-tab="dashboard"><span class="led"></span>Dashboard</div>
     <div class="nav-item" data-tab="pipeline"><span class="led"></span>Pipeline</div>
+    <div class="nav-item" data-tab="earnings"><span class="led"></span>Earnings</div>
     <div class="nav-item" data-tab="lenders"><span class="led"></span>Lenders</div>
     <div class="nav-item" data-tab="templates"><span class="led"></span>Templates</div>
     <div class="nav-item" data-tab="schedule"><span class="led"></span>Schedule</div>
@@ -536,6 +597,28 @@
         <div class="eyebrow">Overview</div>
         <h1>Dashboard</h1>
       </div>
+
+      <div class="quick-action-row">
+        <button class="btn qa-btn" id="qaNewDeal">+ New Deal Setup</button>
+        <button class="btn-ghost qa-btn" id="qaNewLender">+ Add New Lender</button>
+        <button class="btn-ghost qa-btn" id="qaLogInteraction">Log Interaction</button>
+      </div>
+      <div id="logInteractionPanel" class="panel" style="display:none;margin-bottom:16px;">
+        <div class="panel-title">Log Interaction</div>
+        <div class="form-grid">
+          <div>
+            <label>Deal / Vendor <span style="text-transform:none;color:var(--text-dim);">(optional)</span></label>
+            <select id="liDealId"><option value="">— General note, not tied to a deal —</option></select>
+          </div>
+          <div>
+            <label>What happened</label>
+            <input id="liText" placeholder="e.g. Called, left voicemail, sent follow-up email...">
+          </div>
+        </div>
+        <button class="btn" id="btnSaveInteraction">Save Note</button>
+        <button class="btn-ghost" id="btnCancelInteraction">Cancel</button>
+      </div>
+
       <div class="focus-banner">
         <div class="focus-dot" id="focusDot"></div>
         <div class="focus-text">
@@ -543,11 +626,47 @@
           <div class="industry" id="focusIndustry"></div>
         </div>
       </div>
+
       <div class="panel panel-priority">
         <div class="panel-title-lg">Needs Attention Next</div>
         <div id="upcomingList"></div>
       </div>
-      <div class="stat-grid" id="statGrid"></div>
+
+      <div class="stat-grid stat-grid-3col" id="statGrid"></div>
+
+      <div class="mtd-card" id="mtdCard"></div>
+
+      <div class="split-grid">
+        <div class="panel">
+          <div class="panel-title">Recent Activity</div>
+          <div id="activityFeed"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Today's Checklist</div>
+          <div id="todayChecklist"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Pipeline Funnel</div>
+        <div id="pipelineFunnel"></div>
+      </div>
+
+      <div class="split-grid">
+        <div class="panel">
+          <div class="panel-title">Top Lenders</div>
+          <div id="topLendersList"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Lead Source Breakdown</div>
+          <div id="leadSourceChart"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Stalled Deals <span style="text-transform:none;color:var(--text-dim);font-weight:400;">— no update in 7+ days</span></div>
+        <div id="stalledList"></div>
+      </div>
     </div>
 
     <!-- PIPELINE -->
@@ -566,6 +685,70 @@
           <button class="btn" id="btnAddDeal">+ Add Deal</button>
         </div>
         <div id="dealList"></div>
+      </div>
+    </div>
+
+    <!-- EARNINGS -->
+    <div class="tab-section" id="tab-earnings">
+      <div class="page-header">
+        <div class="eyebrow">Commission</div>
+        <h1>Earnings</h1>
+      </div>
+      <div class="stat-grid stat-grid-3col" id="earningsStatGrid"></div>
+
+      <div class="panel">
+        <div class="panel-title">Quick Calculator</div>
+        <div class="form-grid">
+          <div>
+            <label>Industry</label>
+            <select id="eIndustry"><option value="trucking">Trucking</option><option value="construction">Construction</option><option value="medical">Medical</option></select>
+          </div>
+          <div>
+            <label>Deal amount ($)</label>
+            <input id="eAmount" type="number" placeholder="75000">
+          </div>
+          <div>
+            <label>Commission % <span style="text-transform:none;color:var(--text-dim);">(auto-filled by industry, editable)</span></label>
+            <input id="eCommissionPct" type="number" step="0.1">
+          </div>
+          <div style="display:flex;align-items:flex-end;">
+            <button class="btn" id="btnCalcCommission" style="margin-bottom:12px;">Calculate</button>
+          </div>
+        </div>
+        <div id="eCalcResult" class="calc-result"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Monthly Income Projector</div>
+        <div class="form-grid">
+          <div>
+            <label>Deals per month</label>
+            <input id="pDealsPerMonth" type="number" placeholder="2">
+          </div>
+          <div>
+            <label>Avg deal amount ($)</label>
+            <input id="pAvgAmount" type="number" placeholder="80000">
+          </div>
+          <div>
+            <label>Avg commission %</label>
+            <input id="pAvgCommission" type="number" step="0.1" placeholder="5">
+          </div>
+          <div style="display:flex;align-items:flex-end;">
+            <button class="btn" id="btnProject" style="margin-bottom:12px;">Project</button>
+          </div>
+        </div>
+        <div id="pResult" style="display:none;">
+          <div class="stat-grid stat-grid-2col" style="margin-top:4px;">
+            <div class="stat-card"><div class="stat-num is-money ledger-figure" id="pMonthly"></div><div class="stat-label">Projected / Month</div></div>
+            <div class="stat-card"><div class="stat-num is-money ledger-figure" id="pAnnual"></div><div class="stat-label">Projected / Year</div></div>
+          </div>
+        </div>
+        <p style="color:var(--text-dim);font-size:12px;margin-top:12px;">A projection, not a promise -- useful for sanity-checking a target, not for counting on income that hasn't closed yet.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Commission by Pipeline Deal</div>
+        <div id="earningsDealList"></div>
       </div>
     </div>
 
@@ -709,8 +892,26 @@
             <input id="fAmount" type="number" placeholder="45000">
           </div>
           <div>
+            <label>Commission % <span style="text-transform:none;color:var(--text-dim);">(auto-fills, editable)</span></label>
+            <input id="fCommissionPct" type="number" step="0.1">
+          </div>
+          <div>
             <label>Next action date</label>
             <input id="fDate" type="date">
+          </div>
+          <div>
+            <label>Lead source</label>
+            <select id="fLeadSource">
+              <option value="Cold Outreach">Cold Outreach</option>
+              <option value="Referral">Referral</option>
+              <option value="Vendor Partnership">Vendor Partnership</option>
+              <option value="Digital/Online">Digital/Online</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label>Funding lender <span style="text-transform:none;color:var(--text-dim);">(once known)</span></label>
+            <select id="fLenderId"><option value="">— Not yet selected —</option></select>
           </div>
         </div>
         <label>Next action</label>
@@ -796,11 +997,14 @@
   const WEEKDAYS = [
     {n:1,name:'Monday'},{n:2,name:'Tuesday'},{n:3,name:'Wednesday'},{n:4,name:'Thursday'},{n:5,name:'Friday'}
   ];
+  // Default commission % per industry -- midpoints of typical ranges. Edit freely per deal.
+  const COMMISSION_DEFAULTS = { trucking: 5, construction: 4.5, medical: 5.5 };
 
   let deals = [];
   let lenders = [];
   let schedule = {1:[],2:[],3:[],4:[],5:[]};
   let profile = {name:'', brokerage:''};
+  let activityLog = [];
   let editingDealId = null;
   let editingLenderId = null;
   let currentFilter = 'all';
@@ -846,6 +1050,13 @@
     if(!lenders){ lenders = DEFAULT_LENDERS; await safeSet('lenders', lenders); }
     schedule = await safeGet('schedule', {1:[],2:[],3:[],4:[],5:[]});
     profile = await safeGet('profile', {name:'',brokerage:''});
+    activityLog = await safeGet('activityLog', []);
+  }
+
+  async function appendActivity(text, dealId){
+    activityLog.unshift({ id:'a'+Date.now()+Math.random().toString(36).slice(2,6), ts:new Date().toISOString(), text, dealId: dealId||null });
+    activityLog = activityLog.slice(0, 50); // keep it lean
+    await safeSet('activityLog', activityLog);
   }
 
   function fmtMoney(n){
@@ -865,20 +1076,25 @@
     const d2 = new Date(dateStr);
     return Math.round((d2-d1)/86400000);
   }
+  function commissionFor(d){
+    const pct = Number(d.commissionPct)||COMMISSION_DEFAULTS[d.industry]||0;
+    return (Number(d.amount)||0) * pct/100;
+  }
 
   /* ---------- NAV ---------- */
   document.querySelectorAll('.nav-item').forEach(item=>{
-    item.addEventListener('click', ()=>{
-      document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
-      item.classList.add('active');
-      document.querySelectorAll('.tab-section').forEach(s=>s.classList.remove('active'));
-      document.getElementById('tab-'+item.dataset.tab).classList.add('active');
-    });
+    item.addEventListener('click', ()=>{ goToTab(item.dataset.tab); });
   });
+  function goToTab(tab){
+    document.querySelectorAll('.nav-item').forEach(i=>i.classList.toggle('active', i.dataset.tab===tab));
+    document.querySelectorAll('.tab-section').forEach(s=>s.classList.remove('active'));
+    document.getElementById('tab-'+tab).classList.add('active');
+  }
 
   /* ---------- MODALS ---------- */
   function openDealModal(){
     document.getElementById('dealModalTitle').textContent = editingDealId ? 'Edit Deal' : 'Add Deal';
+    populateLenderDropdown();
     document.getElementById('dealModalOverlay').classList.add('open');
   }
   function closeDealModal(){
@@ -893,6 +1109,13 @@
     document.getElementById('lenderModalOverlay').classList.remove('open');
     editingLenderId = null;
   }
+  function populateLenderDropdown(){
+    const sel = document.getElementById('fLenderId');
+    const current = sel.value;
+    sel.innerHTML = '<option value="">— Not yet selected —</option>' +
+      lenders.map(l=>`<option value="${l.id}">${escapeHtml(l.name)}</option>`).join('');
+    sel.value = current;
+  }
   document.getElementById('dealModalOverlay').addEventListener('click', (e)=>{
     if(e.target.id==='dealModalOverlay') closeDealModal();
   });
@@ -903,6 +1126,45 @@
   document.getElementById('btnCloseLenderModal').addEventListener('click', closeLenderModal);
   document.addEventListener('keydown', (e)=>{
     if(e.key==='Escape'){ closeDealModal(); closeLenderModal(); }
+  });
+
+  /* ---------- QUICK ACTIONS ---------- */
+  document.getElementById('qaNewDeal').addEventListener('click', ()=>{
+    editingDealId = null;
+    clearDealForm();
+    openDealModal();
+  });
+  document.getElementById('qaNewLender').addEventListener('click', ()=>{
+    editingLenderId = null;
+    clearLenderForm();
+    openLenderModal();
+  });
+  document.getElementById('qaLogInteraction').addEventListener('click', ()=>{
+    const panel = document.getElementById('logInteractionPanel');
+    const showing = panel.style.display==='block';
+    if(!showing){
+      const sel = document.getElementById('liDealId');
+      sel.innerHTML = '<option value="">— General note, not tied to a deal —</option>' +
+        deals.filter(d=>d.stage!=='Declined').map(d=>`<option value="${d.id}">${escapeHtml(d.vendor)}</option>`).join('');
+      document.getElementById('liText').value='';
+    }
+    panel.style.display = showing ? 'none' : 'block';
+  });
+  document.getElementById('btnCancelInteraction').addEventListener('click', ()=>{
+    document.getElementById('logInteractionPanel').style.display='none';
+  });
+  document.getElementById('btnSaveInteraction').addEventListener('click', async ()=>{
+    const text = document.getElementById('liText').value.trim();
+    if(!text){ alert('Add a quick note about what happened.'); return; }
+    const dealId = document.getElementById('liDealId').value || null;
+    let label = text;
+    if(dealId){
+      const d = deals.find(x=>x.id===dealId);
+      if(d) label = `${d.vendor}: ${text}`;
+    }
+    await appendActivity(label, dealId);
+    document.getElementById('logInteractionPanel').style.display='none';
+    renderDashboard();
   });
 
   /* ---------- DASHBOARD ---------- */
@@ -917,22 +1179,56 @@
     document.getElementById('focusIndustry').textContent = focusKey==='admin' ? 'Open day — pipeline cleanup & admin' : "Today's focus: "+meta.label;
 
     const active = deals.filter(d=>d.stage!=='Funded' && d.stage!=='Declined');
-    const byIndustry = {trucking:0,construction:0,medical:0};
     let totalValue = 0;
-    active.forEach(d=>{ byIndustry[d.industry] = (byIndustry[d.industry]||0)+1; totalValue += Number(d.amount)||0; });
+    active.forEach(d=>{ totalValue += Number(d.amount)||0; });
     const dueSoon = active.filter(d=>d.nextActionDate && daysUntil(d.nextActionDate) <= 7).length;
+    const activeCommission = active.reduce((sum,d)=>sum+commissionFor(d),0);
+
+    const nowMonth = now.getMonth(), nowYear = now.getFullYear();
+    const fundedThisMonth = deals.filter(d=>{
+      if(d.stage!=='Funded' || !d.fundedDate) return false;
+      const fd = new Date(d.fundedDate);
+      return fd.getMonth()===nowMonth && fd.getFullYear()===nowYear;
+    });
+    const fundedThisMonthCommission = fundedThisMonth.reduce((sum,d)=>sum+commissionFor(d),0);
 
     const stats = [
       {num:active.length, label:'Active Deals', money:false},
       {num:fmtMoney(totalValue), label:'Pipeline Value', money:true},
+      {num:fmtMoney(activeCommission), label:'Potential Commission', money:true},
       {num:dueSoon, label:'Due Within 7 Days', money:false},
+      {num:fundedThisMonth.length, label:'Funded This Month', money:false},
       {num:lenders.length, label:'Lenders In Network', money:false}
     ];
     document.getElementById('statGrid').innerHTML = stats.map(s=>
       `<div class="stat-card"><div class="stat-num ${s.money?'is-money ledger-figure':''}">${s.num}</div><div class="stat-label">${s.label}</div></div>`
     ).join('');
 
-    const upcoming = active.filter(d=>d.nextActionDate).sort((a,b)=> new Date(a.nextActionDate)-new Date(b.nextActionDate)).slice(0,5);
+    // Month-to-date revenue card, with growth vs last month
+    const lastMonthDate = new Date(nowYear, nowMonth-1, 1);
+    const lastMonth = lastMonthDate.getMonth(), lastMonthYear = lastMonthDate.getFullYear();
+    const fundedLastMonth = deals.filter(d=>{
+      if(d.stage!=='Funded' || !d.fundedDate) return false;
+      const fd = new Date(d.fundedDate);
+      return fd.getMonth()===lastMonth && fd.getFullYear()===lastMonthYear;
+    });
+    const fundedLastMonthCommission = fundedLastMonth.reduce((sum,d)=>sum+commissionFor(d),0);
+    let deltaHtml = '';
+    if(fundedLastMonthCommission > 0){
+      const pctChange = ((fundedThisMonthCommission - fundedLastMonthCommission) / fundedLastMonthCommission) * 100;
+      const up = pctChange >= 0;
+      deltaHtml = `<span class="mtd-delta ${up?'up':'down'}">${up?'▲':'▼'} ${Math.abs(pctChange).toFixed(0)}% vs last month</span>`;
+    } else if(fundedThisMonthCommission > 0){
+      deltaHtml = `<span class="mtd-delta up">▲ first funded commission logged</span>`;
+    }
+    document.getElementById('mtdCard').innerHTML = `
+      <div class="mtd-num">${fmtMoney(fundedThisMonthCommission)}</div>
+      <div class="mtd-label">Month-to-Date Commission Revenue</div>
+      ${deltaHtml}
+    `;
+
+    // Needs Attention Next: overdue/due-soon next actions first, flagged in the danger color
+    const upcoming = active.filter(d=>d.nextActionDate).sort((a,b)=> new Date(a.nextActionDate)-new Date(b.nextActionDate)).slice(0,6);
     const list = document.getElementById('upcomingList');
     if(upcoming.length===0){
       list.innerHTML = `<div class="empty-state">
@@ -940,9 +1236,7 @@
         <div class="empty-sub">Add a next action to a deal in Pipeline and it'll show up here.</div>
         <button class="btn-ghost btn-sm" id="emptyGoPipeline">Go to Pipeline</button>
       </div>`;
-      document.getElementById('emptyGoPipeline').addEventListener('click', ()=>{
-        document.querySelector('.nav-item[data-tab="pipeline"]').click();
-      });
+      document.getElementById('emptyGoPipeline').addEventListener('click', ()=>goToTab('pipeline'));
     } else {
       list.innerHTML = upcoming.map(d=>{
         const im = INDUSTRY_META[d.industry];
@@ -954,6 +1248,133 @@
             <div class="vendor">${escapeHtml(d.vendor||'Untitled deal')} <span class="badge" style="color:${im.hex}">${im.short}</span></div>
             <div class="next-action"><span class="lbl">Next</span>${escapeHtml(d.nextAction||'—')}</div>
             <div class="when-badge">${when}</div>
+          </div>
+          <div class="amount">${fmtMoney(d.amount)}</div>
+        </div>`;
+      }).join('');
+    }
+
+    // Recent Activity Feed — real, logged events only
+    const feedEl = document.getElementById('activityFeed');
+    if(activityLog.length===0){
+      feedEl.innerHTML = '<div class="empty-state">No activity logged yet. Adding deals, changing stages, and using "Log Interaction" will show up here.</div>';
+    } else {
+      feedEl.innerHTML = activityLog.slice(0,10).map(a=>{
+        const d = new Date(a.ts);
+        const tsLabel = d.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + ' · ' + d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+        return `<div class="activity-item"><span class="ts">${tsLabel}</span>${escapeHtml(a.text)}</div>`;
+      }).join('');
+    }
+
+    // Today's checklist, pulled from the Schedule tab's data
+    const todayTasks = schedule[dow] || [];
+    const checklistEl = document.getElementById('todayChecklist');
+    if(dow===0 || dow===6){
+      checklistEl.innerHTML = '<div class="empty-state">No weekday focus today. Check Schedule to plan ahead.</div>';
+    } else if(todayTasks.length===0){
+      checklistEl.innerHTML = '<div class="empty-state">No tasks added for today yet. Add some in the Schedule tab.</div>';
+    } else {
+      checklistEl.innerHTML = todayTasks.map((t,i)=>`<div class="task-row ${t.done?'done':''}">
+        <input type="checkbox" class="dash-task-check" data-idx="${i}" ${t.done?'checked':''}>
+        <span>${escapeHtml(t.text)}</span>
+      </div>`).join('');
+      checklistEl.querySelectorAll('.dash-task-check').forEach(cb=>{
+        cb.addEventListener('change', async ()=>{
+          const idx = cb.dataset.idx;
+          schedule[dow][idx].done = cb.checked;
+          await safeSet('schedule', schedule);
+          renderDashboard();
+        });
+      });
+    }
+
+    // Pipeline Funnel — dollar totals per stage actually used in Pipeline
+    const funnelStages = STAGES.filter(s=>s!=='Declined');
+    const funnelEl = document.getElementById('pipelineFunnel');
+    const stageTotals = funnelStages.map(s=>{
+      const inStage = deals.filter(d=>d.stage===s);
+      return { stage:s, amount: inStage.reduce((sum,d)=>sum+(Number(d.amount)||0),0), count: inStage.length };
+    });
+    const maxAmount = Math.max(...stageTotals.map(s=>s.amount), 1);
+    funnelEl.innerHTML = stageTotals.map(s=>{
+      const pct = Math.round((s.amount/maxAmount)*100);
+      return `<div class="funnel-row">
+        <div class="funnel-label">${s.stage}</div>
+        <div class="funnel-track"><div class="funnel-fill" style="width:${pct}%;"></div></div>
+        <div class="funnel-amount">${moneyFigure(s.amount)} <span style="color:var(--text-dim);">(${s.count})</span></div>
+      </div>`;
+    }).join('');
+
+    // Top Lenders — computed only from deals actually tagged with a funding lender
+    const lenderStatsEl = document.getElementById('topLendersList');
+    const lenderMap = {};
+    deals.filter(d=>d.lenderId).forEach(d=>{
+      if(!lenderMap[d.lenderId]) lenderMap[d.lenderId] = {funded:0, declined:0, fundDays:[]};
+      if(d.stage==='Funded'){
+        lenderMap[d.lenderId].funded++;
+        if(d.createdAt && d.fundedDate){
+          lenderMap[d.lenderId].fundDays.push((new Date(d.fundedDate)-new Date(d.createdAt))/86400000);
+        }
+      }
+      if(d.stage==='Declined') lenderMap[d.lenderId].declined++;
+    });
+    const lenderRows = Object.keys(lenderMap).map(id=>{
+      const l = lenders.find(x=>x.id===id);
+      if(!l) return null;
+      const s = lenderMap[id];
+      const totalDecided = s.funded + s.declined;
+      const approvalRate = totalDecided>0 ? Math.round((s.funded/totalDecided)*100) : null;
+      const avgDays = s.fundDays.length>0 ? Math.round(s.fundDays.reduce((a,b)=>a+b,0)/s.fundDays.length) : null;
+      return { name:l.name, funded:s.funded, approvalRate, avgDays };
+    }).filter(Boolean).sort((a,b)=>b.funded-a.funded).slice(0,3);
+    if(lenderRows.length===0){
+      lenderStatsEl.innerHTML = '<div class="empty-state">Not enough data yet — tag a deal with its funding lender in Pipeline once one closes to start tracking this.</div>';
+    } else {
+      lenderStatsEl.innerHTML = lenderRows.map(l=>`<div class="lender-tier-row">
+        <div class="name">${escapeHtml(l.name)}</div>
+        <div class="stats">${l.funded} funded${l.approvalRate!==null ? ' · '+l.approvalRate+'% approval' : ''}${l.avgDays!==null ? ' · ~'+l.avgDays+'d to fund' : ''}</div>
+      </div>`).join('');
+    }
+
+    // Lead Source Breakdown
+    const sourceEl = document.getElementById('leadSourceChart');
+    const sourceCounts = {};
+    deals.forEach(d=>{ const src = d.leadSource||'Cold Outreach'; sourceCounts[src] = (sourceCounts[src]||0)+1; });
+    const sourceEntries = Object.entries(sourceCounts).sort((a,b)=>b[1]-a[1]);
+    if(sourceEntries.length===0){
+      sourceEl.innerHTML = '<div class="empty-state">No deals logged yet — lead source shows up here once you add some.</div>';
+    } else {
+      const maxCount = Math.max(...sourceEntries.map(e=>e[1]));
+      sourceEl.innerHTML = sourceEntries.map(([src,count])=>{
+        const pct = Math.round((count/maxCount)*100);
+        return `<div class="leadsource-row">
+          <div class="leadsource-label">${escapeHtml(src)}</div>
+          <div class="leadsource-track"><div class="leadsource-fill" style="width:${pct}%;"></div></div>
+          <div class="leadsource-count">${count}</div>
+        </div>`;
+      }).join('');
+    }
+
+    // Stalled deals: active, but untouched for 7+ days (or never touched at all)
+    const stalled = active.filter(d=>{
+      const ref = d.updatedAt || d.nextActionDate;
+      if(!ref) return true;
+      const diffDays = (now - new Date(ref)) / 86400000;
+      return diffDays >= 7;
+    }).sort((a,b)=> new Date(a.updatedAt||0) - new Date(b.updatedAt||0));
+    const stalledEl = document.getElementById('stalledList');
+    if(stalled.length===0){
+      stalledEl.innerHTML = '<div class="empty-state">Nothing stalled — every active deal has been touched in the last week.</div>';
+    } else {
+      stalledEl.innerHTML = stalled.map(d=>{
+        const im = INDUSTRY_META[d.industry];
+        const ref = d.updatedAt || d.nextActionDate;
+        const daysSince = ref ? Math.floor((now - new Date(ref))/86400000) : null;
+        const sinceLabel = daysSince===null ? 'never updated' : `${daysSince}d since last update`;
+        return `<div class="deal-card" style="border-left-color:var(--danger)">
+          <div class="main-info">
+            <div class="vendor">${escapeHtml(d.vendor||'Untitled deal')} <span class="badge" style="color:${im.hex}">${im.short}</span></div>
+            <div class="meta">${d.stage} · ${sinceLabel}</div>
           </div>
           <div class="amount">${fmtMoney(d.amount)}</div>
         </div>`;
@@ -978,27 +1399,42 @@
     openDealModal();
   });
   document.getElementById('btnCancelDeal').addEventListener('click', closeDealModal);
+  document.getElementById('fIndustry').addEventListener('change', ()=>{
+    document.getElementById('fCommissionPct').value = COMMISSION_DEFAULTS[document.getElementById('fIndustry').value];
+  });
   function clearDealForm(){
     document.getElementById('fIndustry').value='trucking';
     document.getElementById('fStage').value='New Lead';
     document.getElementById('fVendor').value='';
     document.getElementById('fContact').value='';
     document.getElementById('fAmount').value='';
+    document.getElementById('fCommissionPct').value=COMMISSION_DEFAULTS['trucking'];
     document.getElementById('fDate').value='';
     document.getElementById('fNextAction').value='';
     document.getElementById('fNotes').value='';
+    document.getElementById('fLeadSource').value='Cold Outreach';
+    document.getElementById('fLenderId').value='';
   }
   document.getElementById('btnSaveDeal').addEventListener('click', async ()=>{
+    const existing = editingDealId ? deals.find(d=>d.id===editingDealId) : null;
+    const newStage = document.getElementById('fStage').value;
+    const stageChanged = existing && existing.stage !== newStage;
     const rec = {
       id: editingDealId || 'd'+Date.now(),
       industry: document.getElementById('fIndustry').value,
-      stage: document.getElementById('fStage').value,
+      stage: newStage,
       vendor: document.getElementById('fVendor').value.trim(),
       contact: document.getElementById('fContact').value.trim(),
       amount: document.getElementById('fAmount').value,
+      commissionPct: document.getElementById('fCommissionPct').value || COMMISSION_DEFAULTS[document.getElementById('fIndustry').value],
       nextActionDate: document.getElementById('fDate').value,
       nextAction: document.getElementById('fNextAction').value.trim(),
-      notes: document.getElementById('fNotes').value.trim()
+      notes: document.getElementById('fNotes').value.trim(),
+      leadSource: document.getElementById('fLeadSource').value,
+      lenderId: document.getElementById('fLenderId').value || null,
+      createdAt: existing ? existing.createdAt : new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      fundedDate: (newStage==='Funded') ? (existing && existing.fundedDate ? existing.fundedDate : new Date().toISOString()) : (existing ? existing.fundedDate : null)
     };
     if(!rec.vendor){ alert('Add a vendor / dealer name so you can find this deal later.'); return; }
     if(editingDealId){
@@ -1007,6 +1443,11 @@
       deals.push(rec);
     }
     await safeSet('deals', deals);
+    if(!existing){
+      await appendActivity(`New deal added: ${rec.vendor} (${INDUSTRY_META[rec.industry].short})`, rec.id);
+    } else if(stageChanged){
+      await appendActivity(`${rec.vendor} moved to ${newStage}`, rec.id);
+    }
     closeDealModal();
     renderAll();
   });
@@ -1043,10 +1484,12 @@
     }
     list.innerHTML = shown.map(d=>{
       const im = INDUSTRY_META[d.industry];
+      const pct = Number(d.commissionPct)||COMMISSION_DEFAULTS[d.industry]||0;
+      const commission = (Number(d.amount)||0) * pct/100;
       return `<div class="deal-card" style="border-left-color:${im.hex}" data-id="${d.id}">
         <div class="main-info">
           <div class="vendor">${escapeHtml(d.vendor)} <span class="badge" style="color:${im.hex}">${im.short}</span></div>
-          <div class="meta">${escapeHtml(d.contact||'No contact listed')} · <span class="amount">${fmtMoney(d.amount)}</span></div>
+          <div class="meta">${escapeHtml(d.contact||'No contact listed')} · <span class="amount">${fmtMoney(d.amount)}</span> · ${moneyFigure(commission)} est. commission (${pct}%)</div>
           ${d.nextAction ? `<div class="next-action"><span class="lbl">Next</span>${escapeHtml(d.nextAction)}${d.nextActionDate ? ' · '+d.nextActionDate : ''}</div>` : ''}
           ${d.notes ? `<div class="meta" style="margin-top:6px;">${escapeHtml(d.notes)}</div>` : ''}
         </div>
@@ -1061,9 +1504,16 @@
     list.querySelectorAll('.stage-select').forEach(sel=>{
       sel.addEventListener('change', async ()=>{
         const id = sel.dataset.id;
-        deals = deals.map(d=> d.id===id ? {...d, stage:sel.value} : d);
+        const newStage = sel.value;
+        const target = deals.find(d=>d.id===id);
+        deals = deals.map(d=>{
+          if(d.id!==id) return d;
+          return {...d, stage:newStage, updatedAt: new Date().toISOString(),
+            fundedDate: newStage==='Funded' ? (d.fundedDate || new Date().toISOString()) : d.fundedDate};
+        });
         await safeSet('deals', deals);
-        renderDashboard();
+        if(target) await appendActivity(`${target.vendor} moved to ${newStage}`, id);
+        renderAll();
       });
     });
     list.querySelectorAll('.edit-deal').forEach(btn=>{
@@ -1076,10 +1526,13 @@
         document.getElementById('fVendor').value = d.vendor;
         document.getElementById('fContact').value = d.contact;
         document.getElementById('fAmount').value = d.amount;
+        document.getElementById('fCommissionPct').value = d.commissionPct || COMMISSION_DEFAULTS[d.industry];
         document.getElementById('fDate').value = d.nextActionDate;
         document.getElementById('fNextAction').value = d.nextAction;
         document.getElementById('fNotes').value = d.notes;
+        document.getElementById('fLeadSource').value = d.leadSource || 'Cold Outreach';
         openDealModal();
+        document.getElementById('fLenderId').value = d.lenderId || '';
       });
     });
     list.querySelectorAll('.del-deal').forEach(btn=>{
@@ -1091,6 +1544,68 @@
       });
     });
   }
+
+  /* ---------- EARNINGS ---------- */
+  function renderEarnings(){
+    const active = deals.filter(d=>d.stage!=='Funded' && d.stage!=='Declined');
+    const funded = deals.filter(d=>d.stage==='Funded');
+    const activeTotal = active.reduce((sum,d)=>sum+commissionFor(d),0);
+    const fundedTotal = funded.reduce((sum,d)=>sum+commissionFor(d),0);
+    const allTotal = activeTotal+fundedTotal;
+
+    document.getElementById('earningsStatGrid').innerHTML = `
+      <div class="stat-card"><div class="stat-num is-money ledger-figure">${fmtMoney(fundedTotal)}</div><div class="stat-label">Earned (Funded Deals)</div></div>
+      <div class="stat-card"><div class="stat-num is-money ledger-figure">${fmtMoney(activeTotal)}</div><div class="stat-label">Potential (Active Pipeline)</div></div>
+      <div class="stat-card"><div class="stat-num is-money ledger-figure">${fmtMoney(allTotal)}</div><div class="stat-label">Combined</div></div>
+    `;
+
+    const list = document.getElementById('earningsDealList');
+    const withCommission = deals.slice().sort((a,b)=>commissionFor(b)-commissionFor(a));
+    if(withCommission.length===0){
+      list.innerHTML = `<div class="empty-state">
+        <div class="empty-title">No deals logged yet</div>
+        <div class="empty-sub">Commission estimates will show up here once you add deals in Pipeline.</div>
+        <button class="btn-ghost btn-sm" id="emptyGoPipelineEarnings">Go to Pipeline</button>
+      </div>`;
+      document.getElementById('emptyGoPipelineEarnings').addEventListener('click', ()=>goToTab('pipeline'));
+    } else {
+      list.innerHTML = withCommission.map(d=>{
+        const im = INDUSTRY_META[d.industry];
+        const pct = Number(d.commissionPct)||COMMISSION_DEFAULTS[d.industry]||0;
+        return `<div class="deal-card" style="border-left-color:${im.hex}">
+          <div class="main-info">
+            <div class="vendor">${escapeHtml(d.vendor)} <span class="badge" style="color:${im.hex}">${im.short}</span> <span class="badge" style="color:var(--text-dim)">${d.stage}</span></div>
+            <div class="meta">${fmtMoney(d.amount)} deal · ${pct}% commission</div>
+          </div>
+          <div class="amount ledger-figure" style="font-size:16px;">${fmtMoney(commissionFor(d))}</div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  document.getElementById('eIndustry').addEventListener('change', ()=>{
+    document.getElementById('eCommissionPct').value = COMMISSION_DEFAULTS[document.getElementById('eIndustry').value];
+  });
+  document.getElementById('eCommissionPct').value = COMMISSION_DEFAULTS['trucking'];
+  document.getElementById('btnCalcCommission').addEventListener('click', ()=>{
+    const amount = Number(document.getElementById('eAmount').value)||0;
+    const pct = Number(document.getElementById('eCommissionPct').value)||0;
+    const result = amount*pct/100;
+    const el = document.getElementById('eCalcResult');
+    el.style.display='block';
+    el.textContent = `Estimated commission: ${fmtMoney(result)}`;
+  });
+
+  document.getElementById('btnProject').addEventListener('click', ()=>{
+    const dealsPerMonth = Number(document.getElementById('pDealsPerMonth').value)||0;
+    const avgAmount = Number(document.getElementById('pAvgAmount').value)||0;
+    const avgPct = Number(document.getElementById('pAvgCommission').value)||0;
+    const perDeal = avgAmount*avgPct/100;
+    const monthly = perDeal*dealsPerMonth;
+    document.getElementById('pMonthly').textContent = fmtMoney(monthly);
+    document.getElementById('pAnnual').textContent = fmtMoney(monthly*12);
+    document.getElementById('pResult').style.display='block';
+  });
 
   /* ---------- LENDERS ---------- */
   document.getElementById('btnAddLender').addEventListener('click', ()=>{
@@ -1324,6 +1839,7 @@
   function renderAll(){
     renderDashboard();
     renderPipeline();
+    renderEarnings();
     renderLenders();
     renderSchedule();
     renderProfile();
